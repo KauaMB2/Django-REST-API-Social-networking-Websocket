@@ -1,0 +1,20 @@
+{% load static %}
+<div class="topics">
+                        <div class="topics__header">
+                            <h3 class="titulo tituloTopics">Browse Topics</h3>
+                        </div>
+                        <ul class="topics__list">
+                            <li>
+                                <a href="{% url 'home' %}" class="active">All<span>{{topics.count}}</span></a>
+                            </li>
+                            {% for topic in topics %}
+                            <li>
+                                <a href="{% url 'home' %}?q={{topic.name}}">{{topic.name}}<span>{{topic.id}}</span></a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        <a title="More" class="MoreLink" href="{% url 'topics' %}">
+                            More
+                            <img class="HeightSVG" src="{% static 'images/icons/More.svg' %}">
+                        </a>
+                    </div>

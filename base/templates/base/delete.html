@@ -1,0 +1,27 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+    <main class="delete-item layout">
+        <div class="DeleteContainer">
+            <div class="layout__box">
+                <div class="layout__boxHeader">
+                    <div class="layout__boxTitle">
+                        <a href="{{request.META.HTTP_REFERER}}">
+                            <img class="HeightSVG" src="{% static 'images/icons/ArrowLeft.svg' %}">
+                        </a>
+                        <h3>Back</h3>
+                    </div>
+                </div>
+                <div class="layout__body">
+                    <form class="form formDelete" action="" method="POST">
+                        {% csrf_token %}
+                        <div class="form__group">
+                            <p>Are you sure you want to delete "{{ obj }}"?</p>
+                        </div>
+                        <button class="btnConfirma" type="submit">Confirm</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+    {% endblock content %}

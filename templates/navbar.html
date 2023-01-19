@@ -1,0 +1,49 @@
+{% load static %}
+<header class="navbar">
+            <div class="container-fluid">
+            <a class="logo" href="{% url 'home' %}">
+            <img class="imgLogo" src="{% static 'images/icons/Logo.svg' %}">
+            </a>
+            <form class="formSearch" method="GET" action="{% url 'home' %}">
+                <label>
+                  <img class="HeightSVG" src="{% static 'images/icons/Search.svg' %}">
+                  <input type="text" name="q" class="inputSearch my=2 me-2" placeholder="Search here!">
+                </label>
+                <button type="submit" class="submitSearchButton">
+                <img class="HeightSVG" src="{% static 'images/icons/Send.svg' %}">
+              </button>
+            </form>
+            {% if request.user.is_authenticated %}
+              <div class="header__user">
+                <div class="dropdown-options">
+                    <a href="{% url 'update-user' %}" class="dropdownItem"><img src="{% static 'images/icons/Settings.svg' %}" class="HeightSVG">Settings</a>
+                    <a href="{% url 'logout' %}" class="dropdownItem"><img src="{% static 'images/icons/Logout.svg' %}" class="HeightSVG">Logout</a>
+                </div>
+                <a href="{% url 'user-profile' request.user.id %}">
+                  <div class="avatar avatar--medium active">
+                    <img src="{{ request.user.avatar.url }}" />
+                  </div>
+                  <div class="Names">
+                    <span>{{request.user.name}}</span>
+                    <small>@{{request.user.username}}</small>
+                  </div>
+                </a>
+                    <button class="dropdown-button">
+                            <img src="{% static 'images/icons/More.svg' %}" class="HeightSVG">
+                        </button>
+      </div>
+                {% else %}
+            <a href="{% url 'login' %}" class="btn btn-primary" type="button">
+                <img title="Login" class="HeightSVG" src="{% static 'images/icons/UserLogin.svg' %}">
+                Login
+            </a>
+            {% endif %}
+        </header>
+
+
+<!-- {% if request.user.is_authenticated %}
+<p>Hello, {{ request.user }}</p>
+<a href="{% url 'logout' %}">Logout</a>
+{% else %}
+<a href="{% url 'login' %}">Login</a>
+{% endif %} -->

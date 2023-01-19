@@ -1,0 +1,34 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+    <main class="update-account layout">
+        <div class="updateFormBody">
+            <div class="layout__box">
+                <div class="layout__boxHeader">
+                    <div class="layout__boxTitle">
+                        <a href="{{request.META.HTTP_REFERER}}">
+                            <img class="HeightSVG" src="{% static 'images/icons/ArrowLeft.svg' %}">
+                        </a>
+                        <h3>Edit your profile</h3>
+                    </div>
+                </div>
+                <div class="layout__body">
+                    <form class="form formUpdate" action="#" method="POST" enctype="multipart/form-data">
+                        <!-- enctype="multipart/form-data" -> It specify that the form, besides text, will receive files !-->
+                      {% csrf_token %}
+                      {% for field in form %}
+                        <div class="form__group">
+                            <label for="profile_pic">{{ field.label }}</label>
+                            {{ field }}
+                        </div>
+                      {% endfor %}
+                        <div class="form__action">
+                            <button class="btnConfirma" type="submit">Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+      </div>
+    </main>
+{% endblock content %}

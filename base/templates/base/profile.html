@@ -1,0 +1,41 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+  <main class="container-fluid">
+    <div class="gridHome">
+      <!-- Topics Start -->
+      {% include 'base/topics_component.html' %}
+      <!-- Topics End -->
+
+      <!-- Room List Start -->
+      <div class="roomList m-4">
+        <div class="profile">
+          <div class="avatar__large">
+            <img src="{{ user.avatar.url }}" />
+          </div>
+          <div class="profile__info">
+            <h3>{{user.name}}</h3>
+            <p>@{{user.username}}</p>
+            {% if request.user == user %}
+              <a href="{% url 'update-user' %}" class="btn">Edit Profile</a>
+            {% endif %}
+          </div>
+          <div class="profile__about">
+            <h3>About</h3>
+            <p>{{ user.bio }}</p>
+          </div>
+        </div>
+
+        <div class="roomList__header">
+            <h2>Study Rooms Hosted by {{user.name}}</a></h2>
+        </div>
+        {% include 'base/feed_component.html' %}
+      </div>
+      <!-- Room List End -->
+
+      <!-- Activities Start -->
+      {% include 'base/activity_component.html' %}
+      <!-- Activities End -->
+    </div>
+  </main>
+{% endblock content %}

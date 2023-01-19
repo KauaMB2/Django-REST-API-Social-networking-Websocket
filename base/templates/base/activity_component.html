@@ -1,0 +1,40 @@
+{% load static %}
+<div class="activities">
+                        <div class="header__activities">
+                            <h3 class="titulo tituloActivities">Recent activities</h3>
+                        </div>
+                        {% for message in roomMessages %}
+                        <div class="listMessages">
+                            <div class="activities__box">
+                                <div class="activities__boxHeader roomListRoom__header">
+                              <div href="{% url 'user-profile' message.user.id %}" class="roomListRoom__author">
+                                <a href="{% url 'user-profile' message.user.id %}" class="avatar">
+                                  <img src="{{ message.user.avatar.url }}">
+                                </a>
+                                <div>
+                                    <a href="{% url 'user-profile' message.user.id %}">@{{ message.user }}</a>
+                                    <small>{{ message.created|timesince }} ago</small>
+                                </div>
+                                {% if request.user == message.user %}
+                                <a href="{% url 'delete-message' message.id %}">
+                                    <img class="HeightSVG" src="{% static 'images/icons/TrashGray.svg' %}">
+                                </a>
+                                {% else %}
+                                <div>
+                                    <img class="HeightSVG" src="{% static 'images/icons/Void.svg' %}">
+                                </div>
+                                {% endif %}
+                              </div>
+                          </div>
+                        </div>
+                        <div class="activities__boxContent">
+                  <p>Replied to “<a href="{% url 'room' message.room.id %}">{{ message.room }}</a>”</p>
+                  <div class="activities__boxRoomContent">{{ message.body }}</div>
+                </div>
+                    </div>
+                    {% endfor %}
+                    <a title="More" class="MoreLink" href="{% url 'activities' %}">
+                            See all the messages
+                            <img class="HeightSVG" src="{% static 'images/icons/More.svg' %}">
+                        </a>
+                </div>

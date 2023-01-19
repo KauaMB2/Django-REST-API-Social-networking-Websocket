@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>AAAAA</title>
+</head>
+<body>
+</body>
+<script type="text/javascript">
+	const url = 'http://localhost:8000/api'
+	const GET=async ()=>{
+		var getURL=url+'/getRoom/1'
+		let request=new Request(getURL)
+		let response = await fetch(request)
+		let tasks=await response.json()
+		console.log(tasks)
+	}
+
+	const POST=async ()=>{
+		let data = JSON.stringify({
+		    "name": "AAA",
+		    "description": "jru  jmumjumumkyukmyum",
+		    "topic":"a"
+		})
+		var init = {
+			method: 'POST',//method to use
+			body: data,//Data stringfied
+			headers: {
+				"Content-Type":'application/json'//It indicates that the request body format is JSON
+			}
+		}
+		var postURL=url+'/postRoom/kauaa/12345/'
+		var request=new Request(postURL, init)//Object who represent our request
+		var response=await fetch(request)//fetch() function perform the request
+		var dados= await response.json()//Turn the return
+	}
+	const PUT=async ()=>{
+		let data = JSON.stringify({
+		    "name": "dsvdev",
+		    "description": "jru  jmumjumumkyukmyum",
+		    "topic":"a"
+		})
+		var init={
+			method: 'PUT',//method to use
+			body: data,//Data stringfied
+			headers: {
+				"Content-Type":'application/json'//It indicates that the request body format is JSON
+			}
+		}
+		var putURL=url+'/putRoom/20/kauaa/12345/'
+		var request=new Request(putURL,init)//Object who represent our request
+		var response=await fetch(request)//fetch() function perform the request
+		var dados= await response.json()//Turn the return
+		console.log(dados)
+	}
+	const DELETE=async ()=>{
+		var init={
+			method: 'DELETE'//method to use
+		}
+		var deleteURL=url+'/deleteRoom/34/jao/qwertyui123/'
+		var request=new Request(deleteURL,init)//Object who represent our request
+		var response=await fetch(request)//fetch() function perform the request
+		var dados= await response.json()//Turn the return
+		console.log(dados)
+	}
+	// GET()
+	// POST()
+	// PUT()
+	// DELETE()
+</script>
+</html>

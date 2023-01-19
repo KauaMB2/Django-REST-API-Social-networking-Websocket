@@ -1,0 +1,95 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+    <main class="auth layout">
+      {% if page == 'login' %}
+        <div class="container">
+        <div class="layout__box">
+          <div class="layout__boxHeader">
+            <div class="layout__boxTitle">
+              <a href="{% url 'home' %}">
+                <img class="HeightSVG" src="{% static 'images/icons/ArrowLeft.svg' %}">
+              </a>
+              <h3>Login</h3>
+            </div>
+          </div>
+          <div class="layout__body">
+            <h2 class="auth__tagline">Find your study partner</h2>
+
+            <form class="form" action="" method="POST">
+              {% csrf_token %}
+              <div class="form__group form__group">
+                <label for="room_name">User</label>
+                <input id="username" name="username" type="text" placeholder="username..." />
+              </div>
+              <div class="form__group">
+                <label for="password">Password</label>
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
+                />
+              </div>
+
+              <div class="btnLogin">
+                <button class="btnConfirma" type="submit">
+                  <img class="HeightSVG" src="{% static 'images/icons/Locked.svg' %}">
+                  Login
+                </button>
+              </div>
+            </form>
+
+            <div class="auth__action">
+              <div>
+                <p>Haven't signed up yet?</p>
+                <a href="{% url 'register' %}" class="btnConfirma">Sign Up</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      {% endif %}
+      {% if page == 'register' %}
+        <div class="container">
+        <div class="layout__box">
+          <div class="layout__boxHeader">
+            <div class="layout__boxTitle">
+              <a href="{% url 'home' %}">
+                <img class="HeightSVG" src="{% static 'images/icons/ArrowLeft.svg' %}">
+              </a>
+              <h3>Register</h3>
+            </div>
+          </div>
+          <div class="layout__body">
+            <h2 class="auth__tagline">Find your study partner</h2>
+
+            <form class="form" action="" method="POST">
+              {% csrf_token %}
+              {% for field in form %}
+                <div class="form__group form__group">
+                  <label for="room_name">{{ field.label }}</label>
+                  {{ field }}
+                </div>
+              {% endfor %}
+
+              <div class="btnLogin">
+                <button class="btnConfirma" type="submit">
+                  <img class="HeightSVG" src="{% static 'images/icons/Locked.svg' %}">
+                  Register
+                </button>
+              </div>
+            </form>
+
+            <div class="auth__action">
+              <div>
+                <p>Already signed up?</p>
+                <a href="{% url 'login' %}" class="btnConfirma">Login here!</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      {% endif %}
+    </main>
+    {% endblock content %}

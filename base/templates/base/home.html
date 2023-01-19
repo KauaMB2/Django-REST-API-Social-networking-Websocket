@@ -1,0 +1,47 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+    <main>
+      <div class="gridHome">
+        <!-- Topics Start -->
+        {% include 'base/topics_component.html' %}
+        <!-- Topics End -->
+
+        <!-- Room List Start -->
+        <div class="col2 m-4">
+          <div class="mobile-menu">
+            <form class="formSearchMobile" action="{% url 'home' %}" class="header__search" method="GET">
+              <label>
+                <img class="HeightSVG" src="{% static 'images/icons/Search.svg' %}">
+                <input class="inputSearch" name="q" placeholder="Search for posts" />
+              </label>
+              <button type="submit" class="submitSearchButton">
+                <img class="HeightSVG" src="{% static 'images/icons/Send.svg' %}">
+              </button>
+            </form>
+              <div class="mobile-menuItems">
+                <a class="btnConfirma" href="{% url 'topics' %}">Browse Topics</a>
+                <a class="btnConfirma" href="{% url 'activities' %}">Recent Activities</a>
+            </div>
+          </div>
+          <div class="roomList__header">
+            <div>
+              <h2 class="titulo tituloRooms" style="color: #b2b2b2;">Study Room</h2>
+              <p>{{roomCount}} Rooms available</p>
+            </div>
+            <a href="{% url 'create-room' %}">
+              <button title="Create Room" class="btnCreateRoom">
+                <img class="HeightSVG" src="{% static 'images/icons/CreateRoom.svg' %}">
+                Create Room
+              </button>
+            </a>
+          </div>
+          {% include 'base/feed_component.html' %}
+        </div>
+          <!-- Room List End -->
+        <!-- Activities Start -->
+        {% include 'base/activity_component.html' %}
+        <!-- Activities End -->
+      </div>
+    </main>
+{% endblock content %}
