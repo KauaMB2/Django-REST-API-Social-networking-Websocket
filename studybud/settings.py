@@ -31,7 +31,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'channels',#Add the channels library to work with MQTT protocol
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -49,13 +48,6 @@ INSTALLED_APPS = [
 ]
 
 AUTH_USER_MODEL='base.User'#It says where is the model authentication of user
-
-ASGI_APPLICATION='studybud.asgi.application'#Set where is the ASGI aplication
-CHANNEL_LAYERS={
-    'default':{
-        'BACKEND':'channels.layers.InMemoryChannelLayer'
-    }
-}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

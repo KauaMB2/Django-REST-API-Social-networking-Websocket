@@ -1,37 +1,41 @@
 from django.shortcuts import render,redirect
 from django.db.models import Q
-from django.http import HttpResponse,HttpResponseRedirect
+from django.http import HttpResponse
 from .models import Room,Topic,Message,User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from .forms import RoomForm,UserForm,MyUserCreationForm
-from django.contrib import messages
 
 #What is the request parameter?
 #The request parameter is a parameter that will say about which kind of request and user did that request
 
 # Create your views here
 def loginPage(request):
-    page='login'#Page name
+    page = 'login'
+    context = {'page': page, 'error': None}
     if request.user.is_authenticated:#If user is already authenticated...
         return redirect('home')
-    if request.method=="POST":#If the method is POST...
-        useremail=request.POST.get('username').lower()#Make the letters lowercase
-        password=request.POST.get('password')
-        try:#Try see if the user exits in DB
-            user=User.objects.get(username=useremail)
-        except:#If it doesnt exists...
-            messages.error(request,'Username or password does not exist')#Call a message error
-        user=authenticate(request, username=useremail,password=password)#It makes the authentication of the user
-        if user is not None:
-            login(request,user)#It makes the login of the user
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
-    context={'page':page}
-    return render(request,'base/login_register.html',context)
+    if request.method == "POST":
+        useremail = request.POST.get('username').lower()
+        password = request.POST.get('password')
+        user = None
+        try:
+            user = User.objects.get(username=useremail)
+        except User.DoesNotExist:
+            context['error'] = 'Username or password does not exist'
+            return render(request, 'base/login_register.html', context)
+        if user:
+            user = authenticate(request, username=useremail, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+            else:
+                context['error'] = 'Username or password does not exist'
+    return render(request, 'base/login_register.html', context)
 
 def logoutPage(request):
     logout(request)#It logout the current user
-    return redirect('home');
+    return redirect('home')
 
 def registerPage(request):
     page='register'#page name
@@ -60,15 +64,22 @@ def home(request):
     context={'rooms':rooms,'topics':topics,'roomMessages':roomMessages,'roomCount':roomCount}
     return render(request,'base/home.html',context)
 
-def room(request,pk):
-    room=Room.objects.get(id=pk)#It returns the row id is iquals to primarykey(pk)
-    roomMessages=room.message_set.all().order_by('id')#message_set.all() get every data of Message model IN THIS SPECIFIC ROOM
-    participants=room.participants.all()#It returns every participants IN THIS SPECIFIC ROOM
-    avatarUser=""
-    if request.user.is_authenticated:
-        avatarUser=request.user.avatar
-    context={'room':room,'roomMessages':roomMessages,'participants':participants,'pk':pk,'avatarUser':avatarUser}
-    return render(request,'base/room.html',context)
+def room(request, pk):
+    room = Room.objects.get(id=pk)
+    room_messages = room.message_set.all()
+    participants = room.participants.all()
+    if request.method == 'POST':
+        body = request.POST.get('body')
+        if body.strip():  # Ensure the message body is not empty
+            Message.objects.create(user=request.user,room=room,body=body)#Save information in the database
+            room.participants.add(request.user)
+            return redirect('room', pk=room.id)
+        else:
+            # Optionally handle the case where the message body is empty
+            print("Empty message body")
+
+    context = {'room': room, 'roomMessages': room_messages, 'participants': participants}
+    return render(request, 'base/room.html', context)
 
 @login_required(login_url='login')
 def createRoom(request):#Insert in DB
@@ -117,7 +128,7 @@ def deleteMessage(request,pk):#Delete data in DB
     if request.user != message.user:
         return HttpResponse('<h1>You are not allowed here!!</h1>')
     if request.method=="POST":#If it be a POST request...
-        message.delete()#Delete de message of DB
+        message.delete()#Delete the message of DB
         return redirect('home')
     context={'obj':message}
     return render(request,'base/delete.html',context)

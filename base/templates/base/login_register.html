@@ -4,50 +4,49 @@
     <main class="auth layout">
       {% if page == 'login' %}
         <div class="container">
-        <div class="layout__box">
-          <div class="layout__boxHeader">
-            <div class="layout__boxTitle">
-              <a href="{% url 'home' %}">
-                <img class="HeightSVG" src="{% static 'images/icons/ArrowLeft.svg' %}">
-              </a>
-              <h3>Login</h3>
-            </div>
-          </div>
-          <div class="layout__body">
-            <h2 class="auth__tagline">Find your study partner</h2>
-
-            <form class="form" action="" method="POST">
-              {% csrf_token %}
-              <div class="form__group form__group">
-                <label for="room_name">User</label>
-                <input id="username" name="username" type="text" placeholder="username..." />
-              </div>
-              <div class="form__group">
-                <label for="password">Password</label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
-                />
-              </div>
-
-              <div class="btnLogin">
-                <button class="btnConfirma" type="submit">
-                  <img class="HeightSVG" src="{% static 'images/icons/Locked.svg' %}">
-                  Login
-                </button>
-              </div>
-            </form>
-
-            <div class="auth__action">
-              <div>
-                <p>Haven't signed up yet?</p>
-                <a href="{% url 'register' %}" class="btnConfirma">Sign Up</a>
+          <div class="layout__box">
+            <div class="layout__boxHeader">
+              <div class="layout__boxTitle">
+                <a href="{% url 'home' %}">
+                  <img class="HeightSVG" src="{% static 'images/icons/ArrowLeft.svg' %}">
+                </a>
+                <h3>Login</h3>
               </div>
             </div>
+            <div class="layout__body">
+              <h2 class="auth__tagline">Find your study partner</h2>
+
+              <form class="form" action="" method="POST">
+                {% csrf_token %}
+                <div class="form__group form__group">
+                  <label for="username">User</label>
+                  <input id="username" name="username" type="text" placeholder="username..." />
+                </div>
+                <div class="form__group">
+                  <label for="password">Password</label>
+                  <input id="password" name="password" type="password" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" />
+                </div>
+                {% if error %}
+                  <div class="error-messages">
+                    <p>{{ error }}</p>
+                  </div>
+                {% endif %}
+                <div class="btnLogin">
+                  <button class="btnConfirma" type="submit">
+                    <img class="HeightSVG" src="{% static 'images/icons/Locked.svg' %}">
+                    Login
+                  </button>
+                </div>
+              </form>
+
+              <div class="auth__action">
+                <div>
+                  <p>Haven't signed up yet?</p>
+                  <a href="{% url 'register' %}" class="btnConfirma">Sign Up</a>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
         </div>
       {% endif %}
       {% if page == 'register' %}
@@ -70,6 +69,15 @@
                 <div class="form__group form__group">
                   <label for="room_name">{{ field.label }}</label>
                   {{ field }}
+                  {% if field.errors %}
+                    <span class="helptext">
+                      <ul>
+                        {% for error in field.errors %}
+                          <li>{{ error }}</li>
+                        {% endfor %}
+                      </ul>
+                    </span>
+                  {% endif %}
                 </div>
               {% endfor %}
 

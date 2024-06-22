@@ -1,2 +1,2 @@
-# Django-Social-networking-using-Websocket
-A social networking made using DJANGO that use the Websocket in chat rooms.
+# Django-Social-networking
+A social networking made using DJANGO in chat rooms.
